@@ -1,0 +1,905 @@
+/* ==================================================
+   インタラクティブ路線マップ - スタイル (サイドバー式)
+   ================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* --- CSS Variables --- */
+:root {
+  --bg-primary: #0a0a1a;
+  --bg-secondary: #12122a;
+  --bg-glass: rgba(18, 18, 42, 0.85);
+  --bg-glass-hover: rgba(30, 30, 60, 0.90);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glow: rgba(212, 175, 55, 0.3);
+
+  --text-primary: #f0eee6;
+  --text-secondary: #a0a0b8;
+  --text-muted: #6a6a80;
+
+  --accent-gold: #d4af37;
+  --accent-gold-light: #f0d060;
+  --accent-bronze: #cd7f32;
+  --accent-nikko: #4a9eff;
+  --accent-nikko-glow: rgba(74, 158, 255, 0.4);
+  --accent-kinugawa: #ff6b6b;
+  --accent-kinugawa-glow: rgba(255, 107, 107, 0.4);
+
+  --accent-yamanote: #80c241;
+  --accent-yamanote-glow: rgba(128, 194, 65, 0.4);
+  --accent-keikyu: #e02f2f;
+  --accent-keikyu-glow: rgba(224, 47, 47, 0.4);
+  --accent-keikyu-blue: #007cc0;
+
+  --accent-keihintohoku: #00b2e5;
+  --accent-keihintohoku-glow: rgba(0, 178, 229, 0.4);
+  --accent-tokaido: #f68b1e;
+  --accent-tokaido-glow: rgba(246, 139, 30, 0.4);
+
+  --accent-tobu: #015B9A;
+  --accent-tobu-glow: rgba(1, 91, 154, 0.4);
+  --accent-tobu-orange: #f26522;
+  --accent-tobu-orange-glow: rgba(242, 101, 34, 0.4);
+
+  --accent-shinkansen-tokaido: #0068B7;
+  --accent-shinkansen-tokaido-glow: rgba(0, 104, 183, 0.4);
+  --accent-shinkansen-tohoku: #00B261;
+  --accent-shinkansen-tohoku-glow: rgba(0, 178, 97, 0.4);
+  --accent-shinkansen-joetsu: #E6399B;
+  --accent-shinkansen-joetsu-glow: rgba(230, 57, 155, 0.4);
+  --accent-shinkansen-hokuriku: #005DAA;
+  --accent-shinkansen-hokuriku-glow: rgba(0, 93, 170, 0.4);
+
+  --accent-asakusa-line: #E85298;
+  --accent-asakusa-line-glow: rgba(232, 82, 152, 0.4);
+
+  --accent-toei-mita: #0079C2;
+  --accent-toei-mita-glow: rgba(0, 121, 194, 0.4);
+  --accent-toei-shinjuku: #6CBB5A;
+  --accent-toei-shinjuku-glow: rgba(108, 187, 90, 0.4);
+  --accent-toei-oedo: #B6007A;
+  --accent-toei-oedo-glow: rgba(182, 0, 122, 0.4);
+
+  --accent-metro-ginza: #FF9500;
+  --accent-metro-marunouchi: #F62E36;
+  --accent-metro-hibiya: #B5B5AC;
+  --accent-metro-tozai: #009BBF;
+  --accent-metro-chiyoda: #00BB85;
+  --accent-metro-yurakucho: #C1A470;
+  --accent-metro-hanzomon: #8F76D6;
+  --accent-metro-namboku: #00AC9B;
+  --accent-metro-fukutoshin: #9C5E31;
+
+  --sidebar-width: 230px;
+
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --shadow-glow-gold: 0 0 30px rgba(212, 175, 55, 0.1);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* --- Reset & Base --- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Noto Sans JP', 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Map Container --- */
+#map {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+}
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-width);
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-glass);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border-right: 1px solid var(--border-glass);
+  box-shadow: 4px 0 30px rgba(0, 0, 0, 0.4);
+}
+
+.sidebar-header {
+  padding: 20px 16px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--border-glass);
+  flex-shrink: 0;
+}
+
+.sidebar-logo-icon {
+  font-size: 22px;
+  filter: drop-shadow(0 0 6px var(--accent-gold));
+}
+
+.sidebar-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, var(--accent-gold-light), var(--accent-gold), var(--accent-bronze));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.clear-btn {
+  all: unset;
+  margin-left: auto;
+  padding: 3px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 10px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.clear-btn:hover {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.15);
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+}
+
+.sidebar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 0 10px;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.sidebar-footer {
+  padding: 12px 12px 16px;
+  border-top: 1px solid var(--border-glass);
+  flex-shrink: 0;
+}
+
+/* --- Line Group --- */
+.line-group {
+  margin-bottom: 4px;
+}
+
+.line-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: default;
+  user-select: none;
+}
+
+/* 折りたたみ可能なグループ (東京メトロ) */
+.line-group-header.collapsible {
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: var(--transition-fast);
+}
+
+.line-group-header.collapsible:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.line-group-toggle-icon {
+  margin-left: auto;
+  font-size: 12px;
+  transition: transform var(--transition-smooth);
+}
+
+.line-group.collapsed .line-group-toggle-icon {
+  transform: rotate(-90deg);
+}
+
+.line-group-items {
+  overflow: hidden;
+  transition: max-height var(--transition-smooth);
+  max-height: 2000px;
+  /* 展開時の高さ (十分な値) */
+}
+
+.line-group.collapsed .line-group-items {
+  max-height: 0;
+}
+
+/* --- Line Toggle Button --- */
+.line-toggle-btn {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: calc(100% - 24px);
+  margin: 2px 12px;
+  padding: 10px 14px;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-sm);
+  position: relative;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+.line-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+}
+
+/* アクティブ状態 (ON状態) */
+.line-toggle-btn.active {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  font-weight: 600;
+}
+
+.line-toggle-btn.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 4px;
+  border-radius: 2px;
+  background: var(--btn-color, var(--accent-gold));
+  box-shadow: 0 0 15px var(--btn-color, var(--accent-gold));
+}
+
+.line-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--btn-color, #888);
+  opacity: 0.4;
+  transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.line-toggle-btn.active .line-dot {
+  opacity: 1;
+  box-shadow: 0 0 8px var(--btn-color, #fff);
+}
+
+/* サイドバー用メトロ丸アルファベットアイコン */
+.line-metro-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.6;
+  transition: opacity var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.line-toggle-btn.active .line-metro-icon {
+  opacity: 1;
+  box-shadow: 0 0 8px var(--btn-color, #fff);
+}
+
+.line-btn-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.line-check {
+  font-size: 11px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  color: var(--btn-color, var(--accent-gold));
+  flex-shrink: 0;
+}
+
+.line-toggle-btn.active .line-check {
+  opacity: 1;
+}
+
+/* --- Detail Button --- */
+.detail-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 9px 16px;
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(205, 127, 50, 0.08));
+  color: var(--accent-gold);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  white-space: nowrap;
+}
+
+.detail-btn:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(205, 127, 50, 0.18));
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+  transform: translateY(-1px);
+}
+
+/* --- Info Panel (bottom-left of map area) --- */
+.info-panel {
+  position: fixed;
+  bottom: 24px;
+  left: calc(var(--sidebar-width) + 16px);
+  z-index: 1000;
+  padding: 14px 18px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  min-width: 200px;
+  transition: var(--transition-smooth);
+}
+
+.info-panel h3 {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+
+.info-panel .stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.info-panel .stat-row:last-child {
+  border-bottom: none;
+}
+
+.info-panel .stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.info-panel .stat-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.info-panel .stat-value.gold {
+  color: var(--accent-gold);
+}
+
+/* --- Legend Panel (bottom-right) --- */
+.legend-panel {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  padding: 12px 16px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.legend-panel:empty {
+  display: none;
+}
+
+.legend-panel .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.legend-panel .legend-line {
+  width: 22px;
+  height: 3px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.legend-line.nikko {
+  background: var(--accent-nikko);
+  box-shadow: 0 0 5px var(--accent-nikko-glow);
+}
+
+.legend-line.kinugawa {
+  background: var(--accent-kinugawa);
+  box-shadow: 0 0 5px var(--accent-kinugawa-glow);
+}
+
+.legend-line.common {
+  background: var(--accent-gold);
+}
+
+.legend-line.yamanote {
+  background: var(--accent-yamanote);
+}
+
+.legend-line.keikyu {
+  background: var(--accent-keikyu);
+}
+
+.legend-line.keikyu-daishi {
+  background: var(--accent-keikyu-blue);
+}
+
+.legend-line.keihintohoku {
+  background: var(--accent-keihintohoku);
+}
+
+.legend-line.tokaido {
+  background: var(--accent-tokaido);
+}
+
+.legend-line.tobu-main {
+  background: var(--accent-tobu-orange);
+}
+
+.legend-line.tobu-tojo {
+  background: var(--accent-tobu);
+}
+
+.legend-line.shinkansen-tokaido {
+  background: var(--accent-shinkansen-tokaido);
+}
+
+.legend-line.shinkansen-tohoku {
+  background: var(--accent-shinkansen-tohoku);
+}
+
+.legend-line.shinkansen-joetsu {
+  background: var(--accent-shinkansen-joetsu);
+}
+
+.legend-line.shinkansen-hokuriku {
+  background: var(--accent-shinkansen-hokuriku);
+}
+
+.legend-line.asakusa-line {
+  background: var(--accent-asakusa-line);
+}
+
+.legend-line.toei-mita {
+  background: var(--accent-toei-mita);
+}
+
+.legend-line.toei-shinjuku {
+  background: var(--accent-toei-shinjuku);
+}
+
+.legend-line.toei-oedo {
+  background: var(--accent-toei-oedo);
+}
+
+.legend-line.metro-ginza {
+  background: var(--accent-metro-ginza);
+}
+
+.legend-line.metro-marunouchi {
+  background: var(--accent-metro-marunouchi);
+}
+
+.legend-line.metro-hibiya {
+  background: var(--accent-metro-hibiya);
+}
+
+.legend-line.metro-tozai {
+  background: var(--accent-metro-tozai);
+}
+
+.legend-line.metro-chiyoda {
+  background: var(--accent-metro-chiyoda);
+}
+
+.legend-line.metro-yurakucho {
+  background: var(--accent-metro-yurakucho);
+}
+
+.legend-line.metro-hanzomon {
+  background: var(--accent-metro-hanzomon);
+}
+
+.legend-line.metro-namboku {
+  background: var(--accent-metro-namboku);
+}
+
+.legend-line.metro-fukutoshin {
+  background: var(--accent-metro-fukutoshin);
+}
+
+/* --- Leaflet Custom Popups --- */
+.leaflet-popup-content-wrapper {
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--border-glass) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+  color: var(--text-primary) !important;
+  padding: 0 !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  font-family: 'Noto Sans JP', sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+.leaflet-popup-tip {
+  background: var(--bg-glass) !important;
+  border: 1px solid var(--border-glass) !important;
+  box-shadow: none !important;
+}
+
+.leaflet-popup-close-button {
+  color: var(--text-muted) !important;
+  font-size: 18px !important;
+  top: 6px !important;
+  right: 8px !important;
+}
+
+.leaflet-popup-close-button:hover {
+  color: var(--text-primary) !important;
+}
+
+.popup-content {
+  padding: 14px 16px;
+}
+
+.popup-content .station-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.popup-content .popup-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.popup-content .popup-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.popup-content .popup-info-label {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.popup-content .popup-info-value {
+  color: var(--text-primary);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.popup-content .popup-detail-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 7px;
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(205, 127, 50, 0.08));
+  color: var(--accent-gold);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.popup-content .popup-detail-btn:hover {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.18), rgba(205, 127, 50, 0.18));
+}
+
+/* --- Leaflet Custom Markers --- */
+.station-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 2px solid var(--accent-gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3), 0 3px 8px rgba(0, 0, 0, 0.4);
+  font-size: 12px;
+  transition: var(--transition-spring);
+  cursor: pointer;
+}
+
+.station-marker:hover {
+  transform: scale(1.2);
+}
+
+.station-marker.terminal {
+  width: 34px;
+  height: 34px;
+  border-width: 2.5px;
+  font-size: 14px;
+}
+
+/* テーマに応じた border-color は JS でインラインスタイルで付与 */
+
+/* Station label under marker */
+.station-label {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 6px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+
+
+/* --- Leaflet Map Tile Filter (Dark Mode) --- */
+.leaflet-tile-pane {
+  filter: brightness(0.7) contrast(1.1) saturate(0.8);
+}
+
+.leaflet-control-attribution {
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(10px) !important;
+  color: var(--text-muted) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 10px !important;
+  border: 1px solid var(--border-glass) !important;
+}
+
+.leaflet-control-attribution a {
+  color: var(--text-secondary) !important;
+}
+
+.leaflet-control-zoom {
+  border: 1px solid var(--border-glass) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.leaflet-control-zoom a {
+  background: var(--bg-glass) !important;
+  backdrop-filter: blur(10px) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-glass) !important;
+  width: 34px !important;
+  height: 34px !important;
+  line-height: 34px !important;
+  font-size: 15px !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--bg-glass-hover) !important;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 56px;
+  }
+
+  .sidebar-title {
+    display: none;
+  }
+
+  .line-group-header {
+    display: none;
+  }
+
+  .line-btn-text {
+    display: none;
+  }
+
+  .line-check {
+    display: none;
+  }
+
+  .line-toggle-btn {
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .line-dot {
+    margin: 0;
+  }
+
+  .sidebar-footer {
+    padding: 8px;
+  }
+
+  .detail-btn span:last-child {
+    display: none;
+  }
+
+  .info-panel {
+    bottom: 12px;
+    left: calc(var(--sidebar-width) + 10px);
+    right: 10px;
+    min-width: auto;
+  }
+
+  .legend-panel {
+    display: none;
+  }
+}
+
+/* --- Station Tooltip (Label) Styling --- */
+.station-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: var(--text-primary) !important;
+  font-size: 11px !important;
+  font-family: inherit !important;
+  font-weight: 500 !important;
+  text-shadow: 0 0 4px rgba(0,0,0,0.8), 0 0 2px rgba(0,0,0,1) !important;
+  pointer-events: none !important;
+  white-space: nowrap !important;
+}
+
+.station-tooltip::before {
+  display: none !important; /* Hide tooltip arrow */
+}
+
+/* --- Premium Station Marker --- */
+.premium-station-icon-wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.premium-station-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffffff 40%, rgba(255,255,255,0.8) 70%, transparent 100%);
+  border: 3px solid var(--border-color, #ffffff);
+  box-shadow: 0 0 10px var(--glow-color, rgba(255,255,255,0.5)), inset 0 0 2px rgba(0,0,0,0.5);
+  transition: transform var(--transition-spring), box-shadow var(--transition-fast);
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.premium-station-marker.terminal {
+  width: 20px;
+  height: 20px;
+  border-width: 4px;
+  background: radial-gradient(circle, #ffffff 50%, rgba(255,255,255,0.9) 80%, transparent 100%);
+}
+
+.premium-station-marker:hover {
+  transform: translate(-50%, -50%) scale(1.4);
+  box-shadow: 0 0 16px var(--glow-color, rgba(255,255,255,0.8)), inset 0 0 2px rgba(0,0,0,0.5);
+}
+
+/* --- Metro Letter Marker (東京メトロ丸アルファベット) --- */
+.metro-letter-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--metro-color, #FF9500);
+  color: #ffffff;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5), 0 0 12px color-mix(in srgb, var(--metro-color, #FF9500) 40%, transparent);
+  cursor: pointer;
+  transition: transform var(--transition-spring, 0.5s), box-shadow 0.18s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.metro-letter-marker.terminal {
+  font-size: 13px;
+  border-width: 2.5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 16px color-mix(in srgb, var(--metro-color, #FF9500) 50%, transparent);
+}
+
+.metro-letter-marker:hover {
+  transform: translate(-50%, -50%) scale(1.3);
+  box-shadow: 0 0 14px rgba(0, 0, 0, 0.5), 0 0 20px color-mix(in srgb, var(--metro-color, #FF9500) 60%, transparent);
+}

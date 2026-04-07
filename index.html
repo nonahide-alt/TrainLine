@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="東京・関東エリアの複数路線をON/OFFで個別表示できるインタラクティブ路線マップ。JR、東武、京急、東京メトロ、新幹線など多数収録。">
+  <title>インタラクティブ路線マップ</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="" />
+
+  <!-- App CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 地図コンテナ -->
+  <div id="map"></div>
+
+  <!-- サイドバー -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-logo-icon">🗾</span>
+      <h1 class="sidebar-title">路線マップ</h1>
+      <button class="clear-btn" id="clear-all-btn" title="選択をすべてクリア">クリア</button>
+    </div>
+
+    <div class="sidebar-scroll">
+      <!-- 路線グループは app.js で動的生成 -->
+      <div id="line-groups-container"></div>
+    </div>
+
+    </div>
+  </aside>
+
+  <!-- 情報パネル（左下） -->
+  <div class="info-panel" id="info-panel">
+    <!-- app.js で動的に描画 -->
+  </div>
+
+  <!-- 凡例パネル（右下） -->
+  <div class="legend-panel" id="legend-panel">
+    <!-- app.js で動的に描画 -->
+  </div>
+
+
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+  <!-- App JS -->
+  <script src="app.js"></script>
+  <script src="metro.js"></script>
+  <script src="toei.js"></script>
+  <script src="tobu.js"></script>
+  <script src="keikyu.js"></script>
+  <script src="jr.js"></script>
+  <script src="keio.js"></script>
+
+</body>
+</html>
