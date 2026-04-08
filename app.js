@@ -32,13 +32,13 @@ const lineGroups = [
     name: '東武線・特急',
     collapsible: true,
     collapsed: false,
-    lines: ['tobu-nikko', 'tobu-kinugawa', 'tobu-skytree', 'tobu-urban']
+    lines: ['tobu-nikko', 'tobu-kinugawa', 'tobu-skytree', 'tobu-urban', 'tobu-isesaki', 'tobu-nikko-kinugawa', 'tobu-sano-kiryu-koizumi', 'tobu-utsunomiya', 'tobu-kameido-daishi']
   },
   {
     name: 'JR線',
     collapsible: true,
     collapsed: false,
-    lines: ['yamanote', 'keihintohoku', 'tokaido', 'yokosuka', 'saikyo', 'shonan-shinjuku', 'nambu', 'keiyo', 'chuo-rapid', 'chuo-sobu', 'sobu-rapid', 'ueno-tokyo', 'yokohama', 'tsurumi', 'kawagoe', 'musashino']
+    lines: ['yamanote', 'keihintohoku', 'tokaido', 'yokosuka', 'saikyo', 'shonan-shinjuku', 'nambu', 'keiyo', 'chuo-rapid', 'chuo-sobu', 'sobu-rapid', 'ueno-tokyo', 'yokohama', 'tsurumi', 'kawagoe', 'musashino', 'joban-rapid', 'joban-local', 'sobu-main', 'sotobo', 'uchibo', 'narita', 'togane', 'kururi', 'mito', 'kashima', 'utsunomiya', 'nikko', 'karasuyama', 'takasaki', 'ryomo', 'agatsuma']
   },
   {
     name: '新幹線',
