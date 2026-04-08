@@ -79,10 +79,13 @@ let map;
 let activeLines = new Set();
 let markers = [];
 let routeLines = [];
+let activeLandmarks = new Set();
+let landmarkMarkers = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   initMap();
   renderSidebar();
+  initSettingsModal();
 
   document.getElementById('clear-all-btn').addEventListener('click', clearAllLines);
 });
@@ -97,6 +100,18 @@ function clearAllLines() {
   });
   activeLines.clear();
   renderAllActiveLines();
+  
+  activeLandmarks.forEach(lmId => {
+    const btn = document.getElementById(`lm-btn-${lmId}`);
+    if (btn) {
+      btn.classList.remove('active');
+    }
+  });
+  activeLandmarks.clear();
+  if (typeof renderActiveLandmarks === 'function') {
+    renderActiveLandmarks();
+  }
+
   updateInfoPanel();
   updateLegendPanel();
 }
@@ -321,4 +336,117 @@ function updateLegendPanel() {
   });
   panel.innerHTML = html;
   panel.style.display = 'block';
+}
+
+// ==========================================
+// ランドマーク・設定モーダル制御
+// ==========================================
+function initSettingsModal() {
+  const modal = document.getElementById('settings-modal');
+  const openBtn = document.getElementById('open-settings-btn');
+  const closeBtn = document.getElementById('close-settings-btn');
+  
+  if (!modal || !openBtn || !closeBtn) return;
+
+  openBtn.addEventListener('click', () => {
+    modal.style.display = 'flex';
+  });
+  
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  const allOnBtn = document.getElementById('landmark-all-on-btn');
+  const allOffBtn = document.getElementById('landmark-all-off-btn');
+  
+  if (allOnBtn && allOffBtn) {
+    allOnBtn.addEventListener('click', () => {
+      if (typeof landmarkData !== 'undefined') {
+        landmarkData.forEach(lm => {
+          activeLandmarks.add(lm.id);
+          const lmBtn = document.getElementById(`lm-btn-${lm.id}`);
+          if (lmBtn) lmBtn.classList.add('active');
+        });
+        renderActiveLandmarks();
+      }
+    });
+
+    allOffBtn.addEventListener('click', () => {
+      activeLandmarks.clear();
+      if (typeof landmarkData !== 'undefined') {
+        landmarkData.forEach(lm => {
+          const lmBtn = document.getElementById(`lm-btn-${lm.id}`);
+          if (lmBtn) lmBtn.classList.remove('active');
+        });
+        renderActiveLandmarks();
+      }
+    });
+  }
+
+  // ランドマーク一覧の生成
+  const controlsContainer = document.getElementById('landmark-controls');
+  if (controlsContainer && typeof landmarkData !== 'undefined') {
+    landmarkData.forEach(lm => {
+      const btn = document.createElement('div');
+      btn.className = 'landmark-toggle';
+      btn.id = `lm-btn-${lm.id}`;
+      btn.innerHTML = `
+        <span class="landmark-icon">${lm.icon}</span>
+        <span class="landmark-name">${lm.name}</span>
+      `;
+      btn.addEventListener('click', () => toggleLandmark(lm.id));
+      controlsContainer.appendChild(btn);
+    });
+  }
+}
+
+function toggleLandmark(lmId) {
+  const btn = document.getElementById(`lm-btn-${lmId}`);
+  if (!btn) return;
+  
+  if (activeLandmarks.has(lmId)) {
+    activeLandmarks.delete(lmId);
+    btn.classList.remove('active');
+  } else {
+    activeLandmarks.add(lmId);
+    btn.classList.add('active');
+  }
+  renderActiveLandmarks();
+}
+
+function renderActiveLandmarks() {
+  landmarkMarkers.forEach(m => map.removeLayer(m));
+  landmarkMarkers = [];
+  
+  activeLandmarks.forEach(id => {
+    const lm = landmarkData.find(x => x.id === id);
+    if (!lm) return;
+    
+    const icon = L.divIcon({
+      className: 'landmark-icon-wrapper',
+      html: `<div class="landmark-marker">${lm.icon}</div>`,
+      iconSize: [30, 30],
+      iconAnchor: [15, 15]
+    });
+    
+    const m = L.marker([lm.lat, lm.lng], {
+      icon: icon,
+      zIndexOffset: 1000
+    }).addTo(map);
+    
+    m.bindTooltip(lm.name, {
+      direction: 'right',
+      permanent: true,
+      className: 'landmark-tooltip',
+      offset: [10, 0]
+    });
+    
+    landmarkMarkers.push(m);
+  });
 }

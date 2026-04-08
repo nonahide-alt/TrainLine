@@ -24,6 +24,7 @@
     <div class="sidebar-header">
       <span class="sidebar-logo-icon">🗾</span>
       <h1 class="sidebar-title">路線マップ</h1>
+      <button class="settings-btn" id="open-settings-btn" title="設定">⚙️</button>
       <button class="clear-btn" id="clear-all-btn" title="選択をすべてクリア">クリア</button>
     </div>
 
@@ -47,12 +48,38 @@
 
 
 
+  <!-- 設定モーダル -->
+  <div class="modal-overlay" id="settings-modal" style="display: none;">
+    <div class="settings-modal">
+      <div class="modal-header">
+        <h2>表示設定</h2>
+        <button class="modal-close-btn" id="close-settings-btn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <section class="settings-section">
+          <div class="settings-section-header">
+            <h3>ランドマーク表示</h3>
+            <div class="settings-actions">
+              <button class="settings-action-btn" id="landmark-all-on-btn">すべてON</button>
+              <button class="settings-action-btn" id="landmark-all-off-btn">すべてOFF</button>
+            </div>
+          </div>
+          <p class="settings-desc">地図上に表示する主要なランドマークを選択してください。</p>
+          <div class="landmark-grid" id="landmark-controls">
+            <!-- JSで動的に追加 -->
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
 
   <!-- App JS -->
+  <script src="landmarks.js"></script>
   <script src="app.js"></script>
   <script src="metro.js"></script>
   <script src="toei.js"></script>
