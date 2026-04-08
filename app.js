@@ -38,7 +38,7 @@ const lineGroups = [
     name: 'JR線',
     collapsible: true,
     collapsed: false,
-    lines: ['yamanote', 'keihintohoku', 'tokaido', 'yokosuka', 'saikyo', 'shonan-shinjuku', 'nambu', 'keiyo']
+    lines: ['yamanote', 'keihintohoku', 'tokaido', 'yokosuka', 'saikyo', 'shonan-shinjuku', 'nambu', 'keiyo', 'chuo-rapid', 'chuo-sobu', 'sobu-rapid', 'ueno-tokyo', 'yokohama', 'tsurumi', 'kawagoe', 'musashino']
   },
   {
     name: '新幹線',
