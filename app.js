@@ -65,10 +65,10 @@ const lineGroups = [
     lines: ['keikyu-main', 'keikyu-airport', 'keikyu-kurihama', 'keikyu-daishi', 'keikyu-zushi']
   },
   {
-    name: '京王線系統',
+    name: 'ランドマーク',
     collapsible: true,
     collapsed: false,
-    lines: ['keio-main', 'keio-new', 'keio-sagamihara', 'keio-takao', 'keio-keibajo', 'keio-dobutsuen']
+    isLandmark: true
   }
 ];
 
@@ -154,34 +154,56 @@ function renderSidebar() {
       body.style.display = isCollapsed ? 'none' : 'block';
     });
 
-    group.lines.forEach(lineId => {
-      // appDataに万が一未定義の場合はスキップ
-      if (!appData[lineId]) return;
+    if (group.isLandmark) {
+      // ランドマークセクションの描画
+      if (typeof landmarkData !== 'undefined') {
+        landmarkData.forEach(lm => {
+          const btn = document.createElement('button');
+          btn.className = 'line-toggle-btn landmark-sidebar-toggle';
+          btn.id = `sidebar-lm-btn-${lm.id}`;
+          
+          btn.innerHTML = `
+            <span class="landmark-icon">${lm.icon}</span>
+            <span class="line-btn-text">${lm.name}</span>
+            <span class="line-check">✓</span>
+          `;
+          
+          btn.addEventListener('click', () => {
+            toggleLandmark(lm.id);
+          });
+          body.appendChild(btn);
+        });
+      }
+    } else {
+      // 通常路線の描画
+      group.lines.forEach(lineId => {
+        if (!appData[lineId]) return;
 
-      const lineDef = appData[lineId];
-      const btn = document.createElement('button');
-      btn.className = 'line-toggle-btn';
-      btn.id = `btn-${lineId}`;
-      const firstPattern = lineDef.routePatterns.main || lineDef.routePatterns.sub1 || Object.values(lineDef.routePatterns)[0];
-      const color = firstPattern ? firstPattern.color : '#666';
-      btn.style.setProperty('--btn-color', color);
+        const lineDef = appData[lineId];
+        const btn = document.createElement('button');
+        btn.className = 'line-toggle-btn';
+        btn.id = `btn-${lineId}`;
+        const firstPattern = lineDef.routePatterns.main || lineDef.routePatterns.sub1 || Object.values(lineDef.routePatterns)[0];
+        const color = firstPattern ? firstPattern.color : '#666';
+        btn.style.setProperty('--btn-color', color);
 
-      const letter = lineDef.stationLetter || null;
-      const dotHtml = letter
-        ? `<span class="line-metro-icon" style="background:${color};">${letter}</span>`
-        : `<span class="line-dot"></span>`;
-      
-      btn.innerHTML = `
-        ${dotHtml}
-        <span class="line-btn-text">${lineDef.title}</span>
-        <span class="line-check">✓</span>
-      `;
-      
-      btn.addEventListener('click', () => {
-        toggleLine(lineId);
+        const letter = lineDef.stationLetter || null;
+        const dotHtml = letter
+          ? `<span class="line-metro-icon" style="background:${color};">${letter}</span>`
+          : `<span class="line-dot"></span>`;
+        
+        btn.innerHTML = `
+          ${dotHtml}
+          <span class="line-btn-text">${lineDef.title}</span>
+          <span class="line-check">✓</span>
+        `;
+        
+        btn.addEventListener('click', () => {
+          toggleLine(lineId);
+        });
+        body.appendChild(btn);
       });
-      body.appendChild(btn);
-    });
+    }
 
     groupDiv.appendChild(body);
     container.appendChild(groupDiv);
@@ -407,15 +429,17 @@ function initSettingsModal() {
 }
 
 function toggleLandmark(lmId) {
-  const btn = document.getElementById(`lm-btn-${lmId}`);
-  if (!btn) return;
+  const modalBtn = document.getElementById(`lm-btn-${lmId}`);
+  const sidebarBtn = document.getElementById(`sidebar-lm-btn-${lmId}`);
   
   if (activeLandmarks.has(lmId)) {
     activeLandmarks.delete(lmId);
-    btn.classList.remove('active');
+    if (modalBtn) modalBtn.classList.remove('active');
+    if (sidebarBtn) sidebarBtn.classList.remove('active');
   } else {
     activeLandmarks.add(lmId);
-    btn.classList.add('active');
+    if (modalBtn) modalBtn.classList.add('active');
+    if (sidebarBtn) sidebarBtn.classList.add('active');
   }
   renderActiveLandmarks();
 }

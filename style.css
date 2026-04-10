@@ -906,8 +906,9 @@ body {
 
 /* --- Settings Button --- */
 .settings-btn {
-  all: unset;
-  padding: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  padding: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -917,10 +918,13 @@ body {
   transition: all var(--transition-fast);
   flex-shrink: 0;
   margin-left: auto;
+  color: var(--text-primary);
 }
 .settings-btn:hover {
   background: rgba(212, 175, 55, 0.15);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  transform: translateY(-1px);
 }
 
 /* --- Settings Modal --- */
@@ -1048,8 +1052,9 @@ body {
 }
 
 .landmark-toggle.active {
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(212, 175, 55, 0.25);
   border-color: var(--accent-gold);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
 }
 
 .landmark-icon {
