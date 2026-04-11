@@ -1,0 +1,7 @@
+node_modules/
+N03-20230101_GML/
+*.zip
+*.ps1
+!server.ps1
+!patch.ps1
+!update_coords.ps1

@@ -383,6 +383,18 @@ function initSettingsModal() {
     });
   }
 
+  // 県境トグル
+  const togglePrefsBtn = document.getElementById('toggle-prefectures-btn');
+  if (togglePrefsBtn) {
+    togglePrefsBtn.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        showPrefectures();
+      } else {
+        hidePrefectures();
+      }
+    });
+  }
+
   // ランドマーク一覧の生成
   const controlsContainer = document.getElementById('landmark-controls');
   if (controlsContainer && typeof landmarkData !== 'undefined') {
@@ -442,4 +454,44 @@ function renderActiveLandmarks() {
     
     landmarkMarkers.push(m);
   });
+}
+
+// ==========================================
+// 県境表示機能
+// ==========================================
+let prefecturesLayer = null;
+
+function showPrefectures() {
+  if (prefecturesLayer) {
+    if (!map.hasLayer(prefecturesLayer)) {
+      prefecturesLayer.addTo(map);
+    }
+    return;
+  }
+  
+  // 陸地の県境（海岸線を除いた内部境界のみ）を表示
+  fetch('japan_land_borders.geojson')
+    .then(response => response.json())
+    .then(data => {
+      prefecturesLayer = L.geoJSON(data, {
+        style: function () {
+          return {
+            color: '#FFFFFF',    // 白色の境界線
+            weight: 1.5,         // 細めの実線（太くしすぎない）
+            opacity: 0.85,       // 適度な透明度で背景に馴染ませる
+            lineJoin: 'round',   // 角を丸くして繋がりを滑らかにする
+            lineCap: 'round',    // 線の端を丸くする
+            fill: false
+          };
+        },
+        interactive: false
+      }).addTo(map);
+    })
+    .catch(err => console.error('県境データの読み込みに失敗しました', err));
+}
+
+function hidePrefectures() {
+  if (prefecturesLayer && map.hasLayer(prefecturesLayer)) {
+    map.removeLayer(prefecturesLayer);
+  }
 }

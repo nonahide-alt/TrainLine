@@ -1,0 +1,25 @@
+{
+  "name": "trainline",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nonahide-alt/TrainLine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/nonahide-alt/TrainLine/issues"
+  },
+  "homepage": "https://github.com/nonahide-alt/TrainLine#readme",
+  "dependencies": {
+    "topojson-client": "^3.1.0",
+    "topojson-server": "^3.0.1"
+  }
+}
