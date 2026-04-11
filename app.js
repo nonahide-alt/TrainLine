@@ -82,7 +82,41 @@ document.addEventListener('DOMContentLoaded', () => {
   initSettingsModal();
 
   document.getElementById('clear-all-btn').addEventListener('click', clearAllLines);
+  document.getElementById('all-on-btn').addEventListener('click', () => setExtraFeatures(true));
+  document.getElementById('all-off-btn').addEventListener('click', () => setExtraFeatures(false));
 });
+
+function setExtraFeatures(state) {
+  // 1. 県境の切り替え
+  const togglePrefsBtn = document.getElementById('toggle-prefectures-btn');
+  if (togglePrefsBtn) {
+    togglePrefsBtn.checked = state;
+    if (state) showPrefectures();
+    else hidePrefectures();
+  }
+
+  // 2. ランドマークの切り替え
+  if (typeof landmarkData !== 'undefined') {
+    if (state) {
+      landmarkData.forEach(lm => activeLandmarks.add(lm.id));
+    } else {
+      activeLandmarks.clear();
+    }
+
+    // モーダル内の各アイテムボタンの状態も更新
+    landmarkData.forEach(lm => {
+      const lmBtn = document.getElementById(`lm-btn-${lm.id}`);
+      if (lmBtn) {
+        if (state) lmBtn.classList.add('active');
+        else lmBtn.classList.remove('active');
+      }
+    });
+    
+    if (typeof renderActiveLandmarks === 'function') {
+      renderActiveLandmarks();
+    }
+  }
+}
 
 function clearAllLines() {
   activeLines.forEach(lineId => {

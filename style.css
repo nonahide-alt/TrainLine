@@ -904,27 +904,99 @@ body {
   box-shadow: 0 0 14px rgba(0, 0, 0, 0.5), 0 0 20px color-mix(in srgb, var(--metro-color, #FF9500) 60%, transparent);
 }
 
-/* --- Settings Button --- */
-.settings-btn {
-  background: rgba(255, 255, 255, 0.05);
+/* --- Map Top Controls --- */
+.map-top-controls {
+  position: fixed;
+  top: 20px;
+  left: calc(var(--sidebar-width) + 20px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 12px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--border-glass);
-  padding: 6px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  transition: var(--transition-smooth);
+}
+
+.map-control-btn {
+  all: unset;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  border-radius: 50%;
   font-size: 16px;
   cursor: pointer;
   transition: all var(--transition-fast);
-  flex-shrink: 0;
-  margin-left: auto;
   color: var(--text-primary);
 }
-.settings-btn:hover {
-  background: rgba(212, 175, 55, 0.15);
-  border-color: rgba(212, 175, 55, 0.3);
+
+.map-control-btn:hover {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.4);
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
-  transform: translateY(-1px);
+  transform: scale(1.05);
+}
+
+.control-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border-glass);
+}
+
+.all-toggle-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-right: 4px;
+}
+
+.all-toggle-btn {
+  all: unset;
+  padding: 4px 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  letter-spacing: 0.05em;
+}
+
+.all-toggle-btn:hover {
+  color: var(--text-primary);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+#all-on-btn:hover {
+  color: var(--accent-gold-light);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+#all-off-btn:hover {
+  color: #ff6b6b;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.all-toggle-separator {
+  font-size: 10px;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  .map-top-controls {
+    left: calc(var(--sidebar-width) + 12px);
+    top: 12px;
+  }
 }
 
 /* --- Settings Modal --- */
