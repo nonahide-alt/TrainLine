@@ -63,6 +63,12 @@ const lineGroups = [
     collapsible: true,
     collapsed: false,
     lines: ['keikyu-main', 'keikyu-airport', 'keikyu-kurihama', 'keikyu-daishi', 'keikyu-zushi']
+  },
+  {
+    name: '京王線',
+    collapsible: true,
+    collapsed: false,
+    lines: ['keio-main', 'keio-new', 'keio-sagamihara', 'keio-takao', 'keio-dobutsuen', 'keio-keibajo']
   }
 ];
 
