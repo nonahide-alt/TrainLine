@@ -78,7 +78,7 @@ const landmarkData = [
   { id: 'lake-inawashiro', name: '猪苗代湖', lat: 37.4764, lng: 140.0911, icon: '🦢', url: 'https://www.town.inawashiro.fukushima.jp/kanko/' },
   { id: 'lake-hamana', name: '浜名湖', lat: 34.7333, lng: 137.6000, icon: '🐍', url: 'https://www.hamamatsu-japan.com/scenic-spot/lake-hamana/' },
   { id: 'karuizawa', name: '軽井沢', lat: 36.3414, lng: 138.6353, icon: '🏘️', url: 'https://karuizawa-kanko.jp/' },
-  { id: 'yatsugatake', name: '八ヶ岳', lat: 35.9754, lng: 138.3619, icon: '⛰️', url: 'https://www.yatsugatake-kanko.jp/' },
+  { id: 'yatsugatake', name: '八ヶ岳', lat: 35.9754, lng: 138.3619, icon: '⛰️', url: 'https://mt-yatsugatake.jp/' },
   { id: 'hitachi-seaside', name: 'ひたち海浜公園', lat: 36.4011, lng: 140.5986, icon: '🌸', url: 'https://hitachikaihin.jp/' },
   { id: 'fukuroda-falls', name: '袋田の滝', lat: 36.7644, lng: 140.3028, icon: '🌊', url: 'https://www.daigo-kanko.jp/fukuroda-falls.html' },
   { id: 'kairakuen', name: '偕楽園', lat: 36.3750, lng: 140.4533, icon: '🌳', url: 'https://ibaraki-kairakuen.jp/' },
