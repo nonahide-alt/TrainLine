@@ -479,6 +479,12 @@ function renderActiveLandmarks() {
       zIndexOffset: 1000
     }).addTo(map);
     
+    // アイコンクリックで公式ページまたはWikipediaを開く
+    m.on('click', () => {
+      const url = lm.url || `https://ja.wikipedia.org/wiki/${encodeURIComponent(lm.name)}`;
+      window.open(url, '_blank');
+    });
+    
     m.bindTooltip(lm.name, {
       direction: 'right',
       permanent: true,
