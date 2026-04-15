@@ -58,7 +58,7 @@ const landmarkData = [
   { id: 'motegi', name: 'モビリティリゾートもてぎ', lat: 36.5331, lng: 140.2294, icon: '🏎️', url: 'https://www.mr-motegi.jp/' },
   { id: 'izu-granpal', name: '伊豆ぐらんぱる公園', lat: 34.9056, lng: 139.1214, icon: '🎢', url: 'https://granpal.com/' },
   { id: 'shima-spain', name: '志摩スペイン村', lat: 34.3619, lng: 136.8442, icon: '💃', url: 'https://www.parque-net.com/' },
-  { id: 'ikuta-ryokuchi', name: '生田緑地', lat: 35.6094, lng: 139.5581, icon: '🌳', url: 'https://www.ikutaryokuchi.jp/' },
+  { id: 'ikuta-ryokuchi', name: '生田緑地', lat: 35.6094, lng: 139.5581, icon: '🌳', url: 'https://www.ikutaryokuti.jp/' },
   { id: 'fujiko-museum', name: '藤子・F・不二雄ミュージアム', lat: 35.6100, lng: 139.5736, icon: '🐱', url: 'https://fujiko-museum.com/' },
   { id: 'kawasaki-marien', name: '川崎マリエン', lat: 35.4969, lng: 139.7633, icon: '🏢', url: 'https://www.kawasakiport.or.jp/' },
   { id: 'kodomo-no-kuni', name: 'こどもの国', lat: 35.5458, lng: 139.4756, icon: '🧒', url: 'https://www.kodomonokuni.org/' },
@@ -69,7 +69,7 @@ const landmarkData = [
   { id: 'lake-shikotsu', name: '支笏湖', lat: 42.7602, lng: 141.3283, icon: '💎', url: 'https://shikotsukovc.sakura.ne.jp/' },
   { id: 'lake-shinji', name: '宍道湖', lat: 35.4542, lng: 132.9644, icon: '🌅', url: 'https://www.matsue-jp.com/' },
   { id: 'lake-saroma', name: 'サロマ湖', lat: 44.1500, lng: 143.7833, icon: '🦪', url: 'https://www.town.saroma.hokkaido.jp/' },
-  { id: 'lake-nojiri', name: '野尻湖', lat: 36.8336, lng: 138.2250, icon: '🐘', url: 'https://www.nojiriko-tourist.com/' },
+  { id: 'lake-nojiri', name: '野尻湖', lat: 36.8336, lng: 138.2250, icon: '🐘', url: 'https://www.shinano-machi.com/spot/514' },
   { id: 'lake-akan', name: '阿寒湖', lat: 43.4503, lng: 144.1086, icon: '🟢', url: 'https://www.akan-mashu-nationalpark.jp/' },
   { id: 'lake-kawaguchi', name: '河口湖', lat: 35.5173, lng: 138.7516, icon: '🏞️', url: 'https://www.fujisan.ne.jp/' },
   { id: 'lake-motosu', name: '本栖湖', lat: 35.4627, lng: 138.5836, icon: '💴', url: 'https://www.fujisan.ne.jp/spot/info.php?srch_flag=4&poi_id=14' },
@@ -118,7 +118,7 @@ const landmarkData = [
   { id: 'yugawara-onsen', name: '湯河原温泉', lat: 35.1453, lng: 139.0683, icon: '♨️', url: 'https://www.yugawara.or.jp/' },
   { id: 'zao-onsen', name: '蔵王温泉', lat: 38.1692, lng: 140.3958, icon: '⛷️', url: 'https://www.zao-spa.or.jp/' },
   { id: 'mt-nantai', name: '男体山', lat: 36.7647, lng: 139.4911, icon: '⛰️', url: 'http://www.futarasan.jp/' },
-  { id: 'mt-akagi', name: '赤城山', lat: 36.5606, lng: 139.1864, icon: '⛰️', url: 'https://www.akagi-yama.jp/' },
+  { id: 'mt-akagi', name: '赤城山', lat: 36.5606, lng: 139.1864, icon: '⛰️', url: 'https://gunma-kanko.jp/spots/670' },
   { id: 'mt-ontake', name: '御嶽山', lat: 35.8931, lng: 137.4803, icon: '🌋', url: 'https://ontake-vc.jp/' },
   { id: 'mt-asama', name: '浅間山', lat: 36.4069, lng: 138.5233, icon: '🌋', url: 'https://www.komoro-tour.jp/spot/asama/' },
   { id: 'sakurajima', name: '桜島', lat: 31.5933, lng: 130.6572, icon: '🌋', url: 'https://www.sakurajima.gr.jp/' },
@@ -253,5 +253,9 @@ const landmarkData = [
   { id: 'spa-eas', name: '横浜天然温泉 SPA EAS', lat: 35.4657, lng: 139.6174, icon: '🧖', url: 'https://spa-eas.com/' },
   { id: 'yokohama-ryusenji', name: '横濱スパヒルズ 竜泉寺の湯', lat: 35.4904, lng: 139.5503, icon: '♨️', url: 'https://ryusenjinoyu.com/yokohama/' },
   { id: 'shiraku-no-yu', name: '縄文天然温泉 志楽の湯', lat: 35.5409, lng: 139.6833, icon: '♨️', url: 'https://www.shiraku.jp/' },
-  { id: 'rakuspa-tsurumi', name: 'RAKU SPA 鶴見', lat: 35.5229, lng: 139.6777, icon: '🧖', url: 'https://rakuspa.com/tsurumi/' }
+  { id: 'rakuspa-tsurumi', name: 'RAKU SPA 鶴見', lat: 35.5229, lng: 139.6777, icon: '🧖', url: 'https://rakuspa.com/tsurumi/' },
+  { id: 'yokohama-akarenga', name: '横浜赤レンガ倉庫', lat: 35.4526, lng: 139.6429, icon: '🧱', url: 'https://www.yokohama-akarenga.jp/' },
+  { id: 'yokohama-stadium', name: '横浜スタジアム', lat: 35.4434, lng: 139.6401, icon: '⚾', url: 'https://www.yokohama-stadium.co.jp/' },
+  { id: 'yamashita-park', name: '山下公園', lat: 35.4458, lng: 139.6498, icon: '🌳', url: 'https://www.welcome.city.yokohama.jp/spot/details.php?bbid=190' },
+  { id: 'mitsuike-park', name: '三ツ池公園', lat: 35.5229, lng: 139.6603, icon: '🌸', url: 'https://www.kanagawa-park.or.jp/mitsuike/' }
 ];
